@@ -1,6 +1,6 @@
 export const formUploadItem = [
   {
-    label: "Header Logo",
+    label: "header_logo.svg",
     name: "header_logo",
     type: 'image/svg+xml',
     typeUrl: 'svg',
@@ -8,7 +8,7 @@ export const formUploadItem = [
     fieldName: "logo"
   },
   {
-    label: "Banner For Desktop",
+    label: "banner_desktop.png",
     name: "banner_desktop",
     type: 'image/png',
     typeUrl: 'png',
@@ -16,7 +16,7 @@ export const formUploadItem = [
     fieldName: "image"
   },
   {
-    label: "Banner For Mobile",
+    label: "banner_mobile.png",
     name: "banner_mobile",
     type: 'image/png',
     typeUrl: 'png',
@@ -24,7 +24,7 @@ export const formUploadItem = [
     fieldName: "image"
   },
   {
-    label: "Slide",
+    label: "slide.png",
     name: "slide",
     type: 'image/png',
     typeUrl: 'png',
@@ -32,7 +32,7 @@ export const formUploadItem = [
     fieldName: "image"
   },
   {
-    label: "Logo Header White",
+    label: "logo_header_white.svg",
     name: "logo_header_white",
     type: 'image/svg+xml',
     typeUrl: 'svg',
@@ -40,7 +40,7 @@ export const formUploadItem = [
     fieldName: "logo"
   },
   {
-    label: "Footer Logo",
+    label: "footer_logo.svg",
     name: "footer_logo",
     type: 'image/svg+xml',
     typeUrl: 'svg',
@@ -48,7 +48,7 @@ export const formUploadItem = [
     fieldName: "logo"
   },
   {
-    label: "Payment bill",
+    label: "payment_bill.png",
     name: "payment_bill",
     type: 'image/png',
     typeUrl: 'png',
@@ -56,7 +56,7 @@ export const formUploadItem = [
     fieldName: "image"
   },
   {
-    label: "Biên lai",
+    label: "bien_lai.png",
     name: "bien_lai",
     type: 'image/png',
     typeUrl: 'png',
@@ -64,7 +64,7 @@ export const formUploadItem = [
     fieldName: "image"
   },
   {
-    label: "Content",
+    label: "content.json",
     name: "content",
     type: 'application/json',
     typeUrl: 'json',
