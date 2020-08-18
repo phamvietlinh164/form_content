@@ -1,0 +1,10 @@
+.up_cont {
+  width: 112px;
+  height: 112px;
+}
+
+.up_cont> span {
+  max-width: 112px;
+  position: absolute;
+  bottom: 73px;
+}
