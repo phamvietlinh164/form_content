@@ -24,7 +24,7 @@ class UploadContent extends React.Component {
     // 1. Limit the number of uploaded files
     // Only to show two recent uploaded files, and old ones will be replaced by the new
     fileList = fileList.slice(-1);
-    console.log(fileList)
+    // console.log(fileList)
 
     if (fileList.length > 0) {
       if (fileList[0].type !== this.props.type) {
@@ -61,7 +61,7 @@ class UploadContent extends React.Component {
   render() {
     const props = {
       name: this.props.fieldName,
-      action: `${currentEnv.DOMAIN_URL}/upload`,
+      action: `${currentEnv.DOMAIN_URL}/${this.props.action}`,
       headers: { hospital: this.props.hospital, name: this.props.name, token: `${localStorage.getItem('token')}` },
       onChange: this.handleChange,
       beforeUpload: this.beforeUpload,

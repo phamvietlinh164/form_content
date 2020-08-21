@@ -1,12 +1,12 @@
 import React from 'react';
 import { Row, Col } from 'antd';
 import { connect } from "react-redux";
-import { formUploadItem } from "./form-item-config";
 import { Redirect } from "react-router-dom";
 import Avatar from "../../components/Avatar/Avatar";
 import UploadContent from "../../components/UploadContent/UploadContent";
 import Select from "../../components/Select/Select";
 import { currentEnv } from "../../configs";
+import { getManageContent } from "../../store/ManageContent/manageContentActions"
 import "./FormContent.css"
 import axios from "axios";
 
@@ -34,6 +34,8 @@ class FormContent extends React.Component {
           isLogin: false
         })
       });
+
+    this.props.getManageContent()
   }
 
   changeHospital = (value) => {
@@ -59,6 +61,9 @@ class FormContent extends React.Component {
 
 
   showAvatar = () => {
+    const hospital = this.state.hospital
+    const formUploadItem = this.props.manageContent[hospital] ? this.props.manageContent[hospital] : []
+
     const result = formUploadItem.map((item, index) => {
       if (item.fieldName === 'content') {
         return <Col xs={24} sm={12} md={8} lg={4} key={index}>
@@ -68,6 +73,7 @@ class FormContent extends React.Component {
             hospital={this.state.hospital}
             type={item.type}
             fieldName={item.fieldName}
+            action={item.action}
           // typeUrl={item.typeUrl}
           />
         </Col >
@@ -90,6 +96,7 @@ class FormContent extends React.Component {
   render() {
 
     const isLogin = this.state.isLogin;
+
     return (
       <React.Fragment>
         {
@@ -101,13 +108,26 @@ class FormContent extends React.Component {
           }
           } /> :
             <div>
+              <br />
+              <br />
               <Select changeHospital={this.changeHospital} default={this.state.hospital} size="large" />
               <br />
               <br />
               <Row>
                 {this.showAvatar()}
+                <Col xs={24} sm={12} md={8} lg={4}>
+                  <UploadContent
+                    label="Manage Image"
+                    name="manageContent"
+                    hospital="manageContent"
+                    type="application/json"
+                    fieldName="manageContent"
+                    action="manageContent"
+                  // typeUrl={item.typeUrl}
+                  />
+                </Col>
               </Row>
-            </div >
+            </div>
         }
       </React.Fragment>
     );
@@ -115,12 +135,15 @@ class FormContent extends React.Component {
 }
 
 
-// const mapStateToProps = state => {
+const mapStateToProps = state => ({
+  manageContent: state.manageContent
+});
 
-// };
+const mapDispatchToProps = dispatch => ({
+  getManageContent: () => {
+    dispatch(getManageContent());
+  },
+});
 
-// const mapDispatchToProps = dispatch => ({
-// });
 
-
-export default connect(null, null)(FormContent);
+export default connect(mapStateToProps, mapDispatchToProps)(FormContent);

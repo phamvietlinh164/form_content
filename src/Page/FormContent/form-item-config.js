@@ -5,7 +5,8 @@ export const formUploadItem = [
     type: 'image/svg+xml',
     typeUrl: 'svg',
     require: false,
-    fieldName: "logo"
+    fieldName: "logo",
+    action: "upload"
   },
   {
     label: "banner_desktop.png",
@@ -13,7 +14,8 @@ export const formUploadItem = [
     type: 'image/png',
     typeUrl: 'png',
     require: false,
-    fieldName: "image"
+    fieldName: "image",
+    action: "upload"
   },
   {
     label: "banner_mobile.png",
@@ -21,7 +23,8 @@ export const formUploadItem = [
     type: 'image/png',
     typeUrl: 'png',
     require: false,
-    fieldName: "image"
+    fieldName: "image",
+    action: "upload"
   },
   {
     label: "slide.png",
@@ -29,7 +32,8 @@ export const formUploadItem = [
     type: 'image/png',
     typeUrl: 'png',
     require: false,
-    fieldName: "image"
+    fieldName: "image",
+    action: "upload"
   },
   {
     label: "logo_header_white.svg",
@@ -37,7 +41,8 @@ export const formUploadItem = [
     type: 'image/svg+xml',
     typeUrl: 'svg',
     require: false,
-    fieldName: "logo"
+    fieldName: "logo",
+    action: "upload"
   },
   {
     label: "footer_logo.svg",
@@ -45,7 +50,8 @@ export const formUploadItem = [
     type: 'image/svg+xml',
     typeUrl: 'svg',
     require: false,
-    fieldName: "logo"
+    fieldName: "logo",
+    action: "upload"
   },
   {
     label: "payment_bill.png",
@@ -53,7 +59,8 @@ export const formUploadItem = [
     type: 'image/png',
     typeUrl: 'png',
     require: false,
-    fieldName: "image"
+    fieldName: "image",
+    action: "upload"
   },
   {
     label: "bien_lai.png",
@@ -61,7 +68,8 @@ export const formUploadItem = [
     type: 'image/png',
     typeUrl: 'png',
     require: false,
-    fieldName: "image"
+    fieldName: "image",
+    action: "upload"
   },
   {
     label: "content.json",
@@ -69,7 +77,8 @@ export const formUploadItem = [
     type: 'application/json',
     typeUrl: 'json',
     require: false,
-    fieldName: "content"
+    fieldName: "content",
+    action: "upload"
   }
 ]
 

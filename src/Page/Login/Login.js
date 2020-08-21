@@ -1,10 +1,7 @@
 import React from 'react';
 import { Form, Input, Button } from 'antd';
-import './Login.css';
 import axios from 'axios';
 import { currentEnv } from "../../configs";
-
-import { connect } from 'react-redux';
 
 const layout = {
   labelCol: {
@@ -113,28 +110,6 @@ class Login extends React.Component {
 };
 
 
-const mapStateToProps = state => {
-  const { login } = state
-  return {
-    login
-  };
-};
-
-const mapDispatchToProps = dispatch => ({
-  checkZabbixToken: (data) => {
-    // dispatch(checkZabbixToken(data));
-  },
-  loginZabbix: () => {
-    // dispatch(loginZabbix());
-  },
-  onSaveFieldLogin: fields => {
-    // dispatch(saveFieldLogin(fields));
-  },
-
-});
-
-
-
-export default connect(mapStateToProps, mapDispatchToProps)(Login)
+export default Login
 
 
