@@ -11,12 +11,19 @@ function getBase64(img, callback) {
 }
 
 
-class Avatar extends React.Component {
+class CustomUpload extends React.Component {
   state = {
     loading: false,
-    imageUrl: `${currentEnv.DOMAIN_URL}/static/upload/hospitals/${this.props.hospital}/${this.props.name}.${this.props.typeUrl}?${new Date().getTime()}`,
-    isOnSize: false
+
+    // isOnSize: false
   };
+
+  componentWillReceiveProps = (newProps) => {
+    const subFol = newProps.subfol.replace(/-/g, "/")
+    // this.setState({
+    //   imageUrl: `${currentEnv.DOMAIN_URL}/static/upload/${subFol}/${newProps.name}?${new Date().getTime()}`
+    // })
+  }
 
   handleChange = info => {
     if (info.file.status === 'uploading') {
@@ -26,17 +33,21 @@ class Avatar extends React.Component {
     if (info.file.status === 'done') {
       // Get this url from response in real world.
       getBase64(info.file.originFileObj, imageUrl => {
+        // console.log(info.file.name)
+        const fileName = info.file.name;
         this.setState({
-          imageUrl: `${currentEnv.DOMAIN_URL}/static/upload/hospitals/${this.props.hospital}/${this.props.name}.${this.props.typeUrl}?${new Date().getTime()}`,
+          imageUrl: `${currentEnv.DOMAIN_URL}/static/upload/${this.props.subfol.replace(/-/g, "/")}/${fileName}?${new Date().getTime()}`,
           loading: false,
         })
-      }
-      );
-      // var newImage = new Image();
-      // newImage.src = `${currentEnv.DOMAIN_URL}/static/upload/hospitals/${this.props.hospital}/${this.props.name}.${this.props.typeUrl}`;
-      // localStorage.setItem('needRefresh', "true");
-      // window.location.reload();
+        // console.log(info.file.originFileObj.name)
+        if (this.props.uploadDone) {
+          this.props.uploadDone(info.file.originFileObj.name);
+          this.setState({
+            imageUrl: `${currentEnv.DOMAIN_URL}/static/upload/${this.props.subfol.replace(/-/g, "/")}/${fileName}?${new Date().getTime()}`
+          })
+        }
 
+      });
 
     }
     if (info.file.status === 'error') {
@@ -52,40 +63,26 @@ class Avatar extends React.Component {
 
 
   beforeUpload = file => {
-
-    return new Promise((resolve, reject) => {
-      const isJpgOrPng = file.type === this.props.type;
-      if (!isJpgOrPng) {
-        message.error(`You can only upload ${this.props.type} file!`);
+    const isCorrectType = file.type === "image/png" || file.type === "image/svg+xml" || file.type === "application/json" || file.type === "image/jpeg";
+    if (!isCorrectType) {
+      message.error(`You can only upload image/png, image/svg+xml, image/jpeg or application/json file!`);
+    }
+    var sameType = true;
+    if (this.props.name) {
+      if (file.name.split(".").slice(-1)[0] !== this.props.name.split(".").slice(-1)[0]) {
+        var sameType = false;
+        message.error(`Have to be the same type!`);
       }
-      const isLt2M = file.size / 1024 / 1024 < 5;
-      if (!isLt2M) {
-        message.error('Image must smaller than 5MB!');
-      }
+    }
 
-      let img = new Image()
-      img.src = window.URL.createObjectURL(file)
+    const isLt5M = file.size / 1024 / 1024 < 5;
+    if (!isLt5M) {
+      message.error('Image must smaller than 5MB!');
+    }
 
-      img.onload = () => {
-        // alert(img.width + " " + img.height);
-        // console.log(img.width)
-        if (isJpgOrPng && isLt2M && img.width > 100) {
-          resolve(file);
-        } else {
-          reject('abc')
-        }
-
-      }
-
-    });
+    return isCorrectType && isLt5M && sameType
   }
 
-
-
-  UNSAFE_componentWillReceiveProps = (newProps) => {
-
-    this.setState({ imageUrl: `${currentEnv.DOMAIN_URL}/static/upload/hospitals/${newProps.hospital}/${newProps.name}.${this.props.typeUrl}` });
-  }
 
   render() {
     const uploadButton = (
@@ -103,8 +100,8 @@ class Avatar extends React.Component {
           listType="picture-card"
           className="avatar-uploader"
           showUploadList={false}
-          action={`${currentEnv.DOMAIN_URL}/upload`}
-          headers={{ hospital: this.props.hospital, name: this.props.name, token: `${localStorage.getItem('token')}` }}
+          action={`${currentEnv.DOMAIN_URL}/${this.props.action}`}
+          headers={{ name: this.props.name, subfol: this.props.subfol.replace(/-/g, "/"), token: `${localStorage.getItem('token')}` }}
           beforeUpload={this.beforeUpload}
           onChange={this.handleChange}
         >
@@ -117,4 +114,4 @@ class Avatar extends React.Component {
   }
 }
 
-export default withRouter(Avatar);
+export default withRouter(CustomUpload);

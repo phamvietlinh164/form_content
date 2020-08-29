@@ -1,4 +1,4 @@
-export const DOMAIN_URL = `https://static-inside-testing.medpro.com.vn`;
+export const DOMAIN_URL = window.location.origin;
 export const RESTFULL_API_URL_V2 = "https://medpro-api-v2-testing.medpro.com.vn"
 
 // export const RESTFULL_API_URL = `https://static-inside-testing.medpro.com.vn`;

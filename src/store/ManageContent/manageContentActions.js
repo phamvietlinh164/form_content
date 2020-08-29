@@ -1,8 +1,9 @@
 import * as types from "./manageContentTypes";
 
 
-export const getManageContent = () => {
+export const getManageContent = (partnerId) => {
   return {
     type: types.GET_MANAGE_CONTENT,
+    partnerId
   };
 };

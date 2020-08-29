@@ -1,5 +1,6 @@
 export const DOMAIN_URL = "http://localhost:6700"
 export const RESTFULL_API_URL_V2 = "https://medpro-api-v2-testing.medpro.com.vn"
+// console.log(window.location)
 
 // export const RESTFULL_API_URL = `https://static-inside-testing.medpro.com.vn`;
 // export const RESTFULL_API_URL = `http://localhost:6700`;
