@@ -6,3 +6,4 @@ export const getHospitalList = () => {
     type: types.GET_HOSPITAL_LIST,
   };
 };
+

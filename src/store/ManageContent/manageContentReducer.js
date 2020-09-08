@@ -1,15 +1,15 @@
 import * as types from "./manageContentTypes";
 
 const initialState = {
-  partnreId: "",
+  partnerId: localStorage.getItem('hospital') || "dkkvangiang",
   content: []
 };
 
 export default function manageContentReducer(state = initialState, action = {}) {
+
   switch (action.type) {
 
     case types.GET_MANAGE_CONTENT:
-      // console.log(action.partnerId)
       return {
         ...state,
         partnerId: action.partnerId

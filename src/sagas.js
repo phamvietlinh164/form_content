@@ -11,7 +11,7 @@ export default function* rootSaga() {
   yield all([
     fork(getHospitalList),
     fork(getManageContent),
-    fork(getManageContent),
+    // fork(getManageContent),
     fork(getListFile),
     // fork(ZabbixAlertSaga),
   ]);

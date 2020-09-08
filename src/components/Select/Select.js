@@ -3,6 +3,8 @@ import { Select } from 'antd';
 // import { selectObject } from "./select-config";
 import { connect } from "react-redux";
 import { getHospitalList } from "../../store/HospitalList/hospitalListActions";
+import { getManageContent } from "../../store/ManageContent/manageContentActions";
+
 
 
 
@@ -18,11 +20,13 @@ class SelectComponent extends React.Component {
     this.props.getHospitalList()
   }
   handleChange = (value) => {
-    this.props.changeHospital(`${value}`)
+    localStorage.setItem('hospital', value)
+    // this.props.changeHospital(value);
+    this.props.getManageContent(value)
   }
 
   showOption = () => {
-
+    // console.log(this.props.hospitalList)
     const result = this.props.hospitalList.map((item, index) => {
       return <Option value={item.partnerId} key={index}>{item.name}</Option>
     })
@@ -51,6 +55,9 @@ const mapStateToProps = state => {
 const mapDispatchToProps = dispatch => ({
   getHospitalList: () => {
     dispatch(getHospitalList());
+  },
+  getManageContent: (partnerId) => {
+    dispatch(getManageContent(partnerId));
   },
 });
 

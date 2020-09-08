@@ -1,7 +1,11 @@
 import React from 'react';
 import { Upload, Button, message } from 'antd';
 import { UploadOutlined } from '@ant-design/icons';
-import { withRouter } from 'react-router-dom';
+import { DownloadOutlined } from '@ant-design/icons';
+// import { withRouter } from 'react-router-dom';
+import { connect } from "react-redux";
+
+import axios from 'axios';
 import { currentEnv } from "../../configs";
 import "./UploadContent.css"
 
@@ -58,6 +62,35 @@ class UploadContent extends React.Component {
     return isJson && isLt2M;
   }
 
+  onClick = () => {
+    // console.log('abc')
+    // axios.get('http://localhost:6700/download/client-upload-hospitals-115-content.json').then(response => {
+    //   console.log(response)
+    // }).catch(err => {
+    //   console.log(err)
+    // })
+    // this.props.history.push('/abc')
+    // console.log(this.props.manageContent.partnerId)
+    const partnerId = this.props.manageContent.partnerId
+
+    axios({
+      url: `${currentEnv.DOMAIN_URL}/download/client-upload-hospitals-${partnerId}-content.json`, //your url
+      method: 'GET',
+      responseType: 'blob', // important
+    }).then((response) => {
+      const url = window.URL.createObjectURL(new Blob([response.data]));
+      const link = document.createElement('a');
+      link.href = url;
+      link.setAttribute('download', 'content.json'); //or any other extension
+      document.body.appendChild(link);
+      link.click();
+    }).catch(err => {
+      // console.log(err);
+      alert('Some error happen!')
+    });
+  }
+
+
   render() {
     const props = {
       name: this.props.fieldName,
@@ -71,18 +104,34 @@ class UploadContent extends React.Component {
     return (
 
       <div className="upload">
+
+
         <div className="up_cont">
           <Upload {...props} fileList={this.state.fileList}>
             <Button>
               <UploadOutlined /> Upload
-          </Button>
+            </Button>
           </Upload>
+          <div className="download-but">
+
+
+            <Button type="primary" icon={<DownloadOutlined />} size='small' onClick={this.onClick}>
+              Download
+          </Button>
+
+          </div>
         </div>
+
+
         <p>{this.props.label}</p><br />
       </div>
     );
   }
 }
 
+const mapStateToProps = state => ({
+  manageContent: state.manageContent,
+});
 
-export default withRouter(UploadContent);
+
+export default connect(mapStateToProps)(UploadContent);

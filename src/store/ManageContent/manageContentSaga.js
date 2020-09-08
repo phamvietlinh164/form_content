@@ -8,6 +8,7 @@ import { currentEnv } from "../../configs";
 
 function* getManageContent(action) {
   // console.log(action)
+
   try {
     // const manageContent = yield select(state => state.manageContent);
     // console.log(manageContent)
@@ -31,7 +32,6 @@ function* getManageContent(action) {
 function* watchGetManageContent() {
   yield takeLatest(types.GET_MANAGE_CONTENT, getManageContent);
 }
-
 
 
 

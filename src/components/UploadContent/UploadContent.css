@@ -8,3 +8,9 @@
   position: absolute;
   bottom: 73px;
 }
+
+.download-but {
+  max-width: 112px;
+  position: absolute;
+  top: 0px;
+}

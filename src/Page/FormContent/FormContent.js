@@ -1,11 +1,12 @@
 import React from 'react';
-import { Row, Col, Input } from 'antd';
+import { Row, Col, Input, Button } from 'antd';
+
 import { connect } from "react-redux";
 import { Redirect } from "react-router-dom";
 import Avatar from "../../components/Avatar/Avatar";
 import UploadContent from "../../components/UploadContent/UploadContent";
-import CustomUpload from "../../components/CustomUpload/CustomUpload";
 import AppIconUpload from "../../components/AppIconUpload/AppIconUpload";
+import UpdateMessage from "../../components/UpdateMessage/UpdateMessage";
 import Select from "../../components/Select/Select";
 import SelectSubfol from "../../components/SelectSubfol/SelectSubfol";
 import { currentEnv } from "../../configs";
@@ -13,11 +14,12 @@ import { getManageContent } from "../../store/ManageContent/manageContentActions
 import "./FormContent.css"
 import axios from "axios";
 
+
 class FormContent extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      hospital: "dkkvangiang",
+      // hospital: localStorage.getItem('hospital') || "dkkvangiang",
       isLogin: true,
       subfol: "",
       availableAt: ""
@@ -39,29 +41,19 @@ class FormContent extends React.Component {
           isLogin: false
         })
       });
-    // console.log(this.state.hospital)
 
-    this.props.getManageContent(this.state.hospital)
+
+    this.props.getManageContent(this.props.manageContent.partnerId)
   }
 
-  onChange = (e) => {
-    this.setState({
-      subfol: e.target.value
-    })
-  }
 
-  uploadDone = (fileName) => {
-    this.setState({
-      availableAt: `${currentEnv.DOMAIN_URL}/static/upload/${this.state.subfol}/${fileName}`
-    })
-  }
 
   changeHospital = (value) => {
     // localStorage.setItem('hospital', value);
-    this.setState({
-      hospital: value
-    })
-    this.props.getManageContent(value)
+    // this.setState({
+    //   hospital: value
+    // })
+    // this.props.getManageContent(value)
     // if (localStorage.getItem('needRefresh') === 'true') {
     //   localStorage.setItem('needRefresh', 'false')
     //   window.location.reload();
@@ -82,35 +74,26 @@ class FormContent extends React.Component {
   showAvatar = (list) => {
 
     const result = list.map((item, index) => {
-      if (item.fieldName === 'content') {
+      if (item.fieldName !== 'content') {
         return <Col xs={24} sm={12} md={8} lg={4} key={index}>
-          <UploadContent
+          <Avatar
             label={item.label}
             name={item.name}
-            hospital={this.state.hospital}
+            hospital={this.props.manageContent.partnerId}
             type={item.type}
             fieldName={item.fieldName}
-            action={item.action}
-          // typeUrl={item.typeUrl}
+            typeUrl={item.typeUrl}
           />
         </Col >
       }
-      return <Col xs={24} sm={12} md={8} lg={4} key={index}>
-        <Avatar
-          label={item.label}
-          name={item.name}
-          hospital={this.state.hospital}
-          type={item.type}
-          fieldName={item.fieldName}
-          typeUrl={item.typeUrl}
-        />
-      </Col >
+
+
     })
 
     return result
   }
 
-  showCustomUpload = (list) => {
+  showAppIconUpload = (list) => {
     // console.log(this.props.subfolAppIcons.subfolAppIcons)
     const result = list.map((item, index) => {
 
@@ -131,7 +114,7 @@ class FormContent extends React.Component {
   render() {
 
     const isLogin = this.state.isLogin;
-    const hospital = this.state.hospital
+
     const formUploadItem = this.props.manageContent.content.length > 0 ? this.props.manageContent.content : []
     // console.log(this.props.manageContent.content)
 
@@ -146,71 +129,66 @@ class FormContent extends React.Component {
           }
           } /> :
             <div>
-              <br />
+
               <br />
               <Row>
-                <Col xs={24} sm={24} md={24} lg={24}>
+                <Col xs={24} sm={24} md={12} lg={6} offset={6}>
                   <h1>Hospitals Content</h1>
                 </Col>
-                <Col xs={24} sm={24} md={24} lg={24}>
-                  <Select changeHospital={this.changeHospital} default={this.state.hospital} />
+                <Col xs={24} sm={24} md={24} lg={12}>
+                  <Select changeHospital={this.changeHospital} default={this.props.manageContent.partnerId} />
                 </Col>
-                <br />
-                <br />
-                <br />
+                <br /><br /><br /><br />
                 {this.showAvatar(formUploadItem)}
                 <Col xs={24} sm={12} md={8} lg={4}>
                   <UploadContent
                     label="content.json"
                     name="content"
-                    hospital={this.state.hospital}
+                    hospital={this.props.manageContent.partnerId}
                     type="application/json"
                     fieldName="content"
                     action="upload"
                   // typeUrl={item.typeUrl}
                   />
+
                 </Col>
 
-              </Row>
+                <Col xs={24} sm={24} md={24} lg={24}>
 
+                  <UpdateMessage />
+                </Col>
+              </Row>
+              <br />
+              <br />
+              <br />
 
 
               <Row>
-                <Col xs={24} sm={24} md={24} lg={24}>
+                <Col xs={24} sm={24} md={16} lg={4} offset={6}>
                   <h1>App Icon</h1>
                 </Col>
-                <Col xs={24} sm={24} md={24} lg={24}><SelectSubfol /></Col>
+                <Col xs={24} sm={24} md={23} lg={14}><SelectSubfol /></Col>
                 <br />
                 <br />
                 <br />
-                {this.showCustomUpload(this.props.subfolAppIcons.listFileAppIcons)}
-
-                <br />
-                <br />
-                <br />
-                <br />
-
-              </Row>
-              <Row>
-                <Col xs={24} sm={24} md={24} lg={24}>
-                  <h1>Custom Upload</h1>
-                </Col>
+                {this.showAppIconUpload(this.props.subfolAppIcons.listFileAppIcons)}
                 <Col xs={24} sm={12} md={8} lg={4}>
-                  <CustomUpload
-                    label="Upload"
+                  <AppIconUpload
+                    label="New File"
                     fieldName="customUpload"
                     action="customUpload"
-                    subfol={this.state.subfol}
-                    uploadDone={this.uploadDone}
-                  // typeUrl={item.typeUrl}
+                    subfol={`AppIcon/${this.props.subfolAppIcons.subfolAppIcons}`}
                   />
+                </Col >
 
-                </Col>
-                <Col xs={24} sm={12} md={8} lg={4}>
-                  <Input placeholder="Basic usage" onChange={this.onChange} />
-                  <p>{this.state.availableAt}</p>
-                </Col>
+
+
               </Row>
+              <br />
+              <br />
+              <br />
+              <br />
+
             </div>
         }
       </React.Fragment>
@@ -226,7 +204,6 @@ const mapStateToProps = state => ({
 
 const mapDispatchToProps = dispatch => ({
   getManageContent: (partnerId) => {
-
     dispatch(getManageContent(partnerId));
   },
 });

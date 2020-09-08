@@ -3,6 +3,10 @@ import { Upload, message } from 'antd';
 import { LoadingOutlined, PlusOutlined } from '@ant-design/icons';
 import { currentEnv } from "../../configs";
 import { withRouter } from 'react-router-dom';
+import { connect } from "react-redux";
+import { listFile, newListFile } from "../../store/SubfolAppIcons/subfolAppIconsActions";
+
+
 
 function getBase64(img, callback) {
   const reader = new FileReader();
@@ -11,14 +15,14 @@ function getBase64(img, callback) {
 }
 
 
-class CustomUpload extends React.Component {
+class AppIconUpload extends React.Component {
   state = {
     loading: false,
     imageUrl: `${currentEnv.DOMAIN_URL}/static/upload/${this.props.subfol.replace(/-/g, "/")}/${this.props.name}`,
     // isOnSize: false
   };
 
-  componentWillReceiveProps = (newProps) => {
+  UNSAFE_componentWillReceiveProps = (newProps) => {
     const subFol = newProps.subfol.replace(/-/g, "/")
     this.setState({
       imageUrl: `${currentEnv.DOMAIN_URL}/static/upload/${subFol}/${newProps.name}?${new Date().getTime()}`
@@ -37,12 +41,17 @@ class CustomUpload extends React.Component {
           imageUrl: `${currentEnv.DOMAIN_URL}/static/upload/${this.props.subfol.replace(/-/g, "/")}/${this.props.name}?${new Date().getTime()}`,
           loading: false,
         })
+
         // console.log(info.file.originFileObj.name)
-        if (this.props.uploadDone) {
-          this.props.uploadDone(info.file.originFileObj.name)
-        }
+        // if (this.props.uploadDone) {
+        //   this.props.uploadDone(info.file.originFileObj.name)
+        // }
 
       });
+      if (!this.props.name) {
+        // console.log(this.props.subfol.replace(/\//g, "-").slice(8))
+        this.props.getNewListFile();
+      }
 
     }
     if (info.file.status === 'error') {
@@ -109,4 +118,14 @@ class CustomUpload extends React.Component {
   }
 }
 
-export default withRouter(CustomUpload);
+const mapDispatchToProps = dispatch => ({
+  getListFile: () => {
+    dispatch(listFile());
+  },
+  getNewListFile: () => {
+    dispatch(newListFile());
+  },
+
+});
+
+export default connect(null, mapDispatchToProps)(withRouter(AppIconUpload));

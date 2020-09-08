@@ -11,7 +11,7 @@ export default function hospitalListReducer(state = initialState, action = {}) {
       ];
     case types.GET_HOSPITAL_LIST_SUCCESS:
       return [
-        ...state,
+        // ...state,
         ...action.payload
       ];
     case types.GET_HOSPITAL_LIST_FAIL:
